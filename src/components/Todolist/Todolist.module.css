@@ -1,0 +1,18 @@
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title > button {
+    align-self: center;
+}
+
+.tasksInput {
+    display: flex;
+    align-items: center;
+}
+
+.addBtn {
+    cursor: pointer;
+    border: 1px solid black;
+}
