@@ -7,6 +7,10 @@
     align-self: center;
 }
 
+/* .tasks {
+    display: flex;
+    flex-direction: column-reverse;
+} */
 .tasksInput {
     display: flex;
     align-items: center;

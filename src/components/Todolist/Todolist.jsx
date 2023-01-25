@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Tasks } from './Tasks/Tasks';
 import styles from './Todolist.module.css'
 
 export const Todolist = (props) => {
@@ -17,13 +18,31 @@ export const Todolist = (props) => {
 
     const [tasks, setTasks] = useState([]);
     const addTask = () => {
-        setTasks([tasksInput, ...tasks]);
+        if (tasksInput === '') return
+        const newTask = {
+            id: tasks.length,
+            text: tasksInput,
+            isDone: false,
+        }
+        setTasks([newTask, ...tasks]);
         setTasksInput('');
     }
 
-    const taskList = tasks.map(el=> <li>{el}</li>)
+    const changeIsDone = (pos) => {
+        const newTasks = tasks.map((el, index) => index === pos ? { ...el, isDone: !el.isDone } : el)
+        setTasks(newTasks)
+    }
 
+    const taskList = tasks
+        .map((el, index) => <Tasks changeIsDone={changeIsDone}
+            key={index}
+            id={index}
+            task={el.text}
+            isDone={el.isDone} />)
 
+    useEffect(() => {
+        console.log('tasks is been updated', tasks);
+    }, [tasksInput])
 
     return (
         <div>
@@ -42,7 +61,7 @@ export const Todolist = (props) => {
                 </div>
             </div>
 
-            <ul>
+            <ul className={styles.tasks}>
                 {taskList}
             </ul>
         </div>
