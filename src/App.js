@@ -3,9 +3,6 @@ import styles from './App.module.css'
 import { Todolist } from './components/Todolist/Todolist';
 
 
-
-
-
 function App() {
 
   const [titleInput, setTitleInput] = useState('');
@@ -15,29 +12,23 @@ function App() {
     setTitleInput(text);
   }
 
-  const [todoTitle, setTodoTitle] = useState('');
-  const addTitle = () => {
-    setTodoTitle(titleInput);
-    setTitleInput('');
-  }
-
-  const [todos, setTodos] = useState([])
-  const deleteTodo = (pos) => {
-    const newTodo = todos.filter((el) => el.id !== pos);
-    setTodos(newTodo)
-  }
-  useEffect(() => {
-    if (todoTitle === '') return
+  const [todo, setTodo] = useState([]);
+  const addTodo = () => {
     const newArr = {
-      id: todos.length,
-      title: todoTitle,
+      id: todo.length,
+      title: titleInput,
       tasks: [],
     }
-    setTodos([...todos, newArr])
-  }, [todoTitle])
+    setTodo([...todo, newArr]);
+    setTitleInput('');
+  }
+  const deleteTodo = (pos) => {
+    const newTodo = todo.filter((el) => el.id !== pos)
+    setTodo(newTodo)
 
-  
-  const lists = todos.map(el => <Todolist key={el.id} index={el.id} title={el.title} deleteTodo={deleteTodo} />);
+  }
+
+  const lists = todo.map(el => <Todolist key={el.id} index={el.id} title={el.title} deleteTodo={deleteTodo} />);
 
   return (
     <div className={styles.App}>
@@ -47,7 +38,7 @@ function App() {
           onChange={textInput}
           ref={todoText}
           placeholder='Write toDo topic...' />
-        <button onClick={addTitle}>Add To-Do</button>
+        <button onClick={addTodo}>Add To-Do</button>
       </div>
       <div className={styles.todoLists}>
         {

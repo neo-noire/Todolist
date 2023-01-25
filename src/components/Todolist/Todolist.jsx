@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Todolist.module.css'
 
 export const Todolist = (props) => {
@@ -8,11 +8,22 @@ export const Todolist = (props) => {
     }
 
     const [tasksInput, setTasksInput] = useState('');
+
     const tasksRef = React.createRef();
     const textInput = () => {
         const text = tasksRef.current.value;
         setTasksInput(text)
     }
+
+    const [tasks, setTasks] = useState([]);
+    const addTask = () => {
+        setTasks([tasksInput, ...tasks]);
+        setTasksInput('');
+    }
+
+    const taskList = tasks.map(el=> <li>{el}</li>)
+
+
 
     return (
         <div>
@@ -27,17 +38,12 @@ export const Todolist = (props) => {
                         onChange={textInput}
                         value={tasksInput}
                         placeholder="Add task..." />
-                    <span className={styles.addBtn} >Add</span>
+                    <span className={styles.addBtn} onClick={addTask} >Add</span>
                 </div>
             </div>
 
-            <ul id="myUL">
-                <li>Hit the gym</li>
-                <li className="checked">Pay bills</li>
-                <li>Meet George</li>
-                <li>Buy eggs</li>
-                <li>Read a book</li>
-                <li>Organize office</li>
+            <ul>
+                {taskList}
             </ul>
         </div>
     );
