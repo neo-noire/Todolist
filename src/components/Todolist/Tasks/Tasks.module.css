@@ -1,0 +1,12 @@
+.tasks {
+    display: flex;
+
+    background-color: antiquewhite;
+    max-width: 100%;
+}
+.tasks > span {
+    max-width: 100%;
+}
+.tasks > button {
+    margin-left: auto;
+}

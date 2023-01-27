@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './App.module.css'
 import { Todolist } from './components/Todolist/Todolist';
 
@@ -14,12 +14,12 @@ function App() {
 
   const [todo, setTodo] = useState([]);
   const addTodo = () => {
+    if (titleInput === '') return
     const newArr = {
       id: todo.length,
       title: titleInput,
-      tasks: [],
     }
-    setTodo([...todo, newArr]);
+    setTodo([newArr, ...todo]);
     setTitleInput('');
   }
   const deleteTodo = (pos) => {

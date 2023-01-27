@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Tasks } from './Tasks/Tasks';
-import styles from './Todolist.module.css'
+import styles from './Todolist.module.css';
+
 
 export const Todolist = (props) => {
-
     const deleteTodo = () => {
         props.deleteTodo(props.index)
     }
@@ -20,29 +20,39 @@ export const Todolist = (props) => {
     const addTask = () => {
         if (tasksInput === '') return
         const newTask = {
+            timeCreated: new Date(),
             id: tasks.length,
             text: tasksInput,
             isDone: false,
+            // timeIsDone: null, <-- can be added to sort arr by time when input checked was marked;
         }
         setTasks([newTask, ...tasks]);
         setTasksInput('');
     }
 
     const changeIsDone = (pos) => {
-        const newTasks = tasks.map((el, index) => index === pos ? { ...el, isDone: !el.isDone } : el)
+        const newTasks = tasks.map((el , index) => index === pos ? { ...el, isDone: !el.isDone } : el)
         setTasks(newTasks)
     }
 
+    const deleteTask = (pos) => {
+        const updatedTasks = tasks.filter((item, index) => index !== pos);
+        setTasks(updatedTasks)
+    }
+
     const taskList = tasks
-        .map((el, index) => <Tasks changeIsDone={changeIsDone}
-            key={index}
+        .map((el, index) => <Tasks
+            deleteTask={deleteTask}
+            changeIsDone={changeIsDone}
             id={index}
             task={el.text}
             isDone={el.isDone} />)
 
+    const sortedTasks = tasks.sort((a, b) => a.isDone - b.isDone || b.timeCreated - a.timeCreated);
+
     useEffect(() => {
-        console.log('tasks is been updated', tasks);
-    }, [tasksInput])
+        setTasks(sortedTasks);
+    }, [tasks])
 
     return (
         <div>
@@ -61,8 +71,10 @@ export const Todolist = (props) => {
                 </div>
             </div>
 
-            <ul className={styles.tasks}>
+            <ul className={styles.tasks} style={{ position: 'relative' }}>
+
                 {taskList}
+
             </ul>
         </div>
     );

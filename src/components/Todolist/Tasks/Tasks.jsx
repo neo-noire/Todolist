@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './Tasks.module.css'
 
 export const Tasks = (props) => {
@@ -7,14 +7,18 @@ export const Tasks = (props) => {
         props.changeIsDone(props.id)
     }
 
-   
+    const deleteTask = () => {
+        props.deleteTask(props.id)
+    }
+
     return (
-        <div>
+        <label ref={props.ref} className={styles.tasks}>
             <input type='checkbox'
-              onChange={changeStat}
-              checked={props.isDone} />
+                onChange={changeStat}
+                checked={props.isDone} />
             <span>{props.task}</span>
-        </div>
+            <button onClick={deleteTask}>x</button>
+        </label>
     );
 }
 

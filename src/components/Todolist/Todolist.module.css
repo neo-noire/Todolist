@@ -3,14 +3,17 @@
     justify-content: space-between;
 }
 
-.title > button {
+.title>button {
     align-self: center;
 }
 
-/* .tasks {
+.tasks {
+    padding: 0;
     display: flex;
-    flex-direction: column-reverse;
-} */
+    flex-direction: column;
+    gap: 15px;
+}
+
 .tasksInput {
     display: flex;
     align-items: center;
