@@ -31,7 +31,7 @@ export const Todolist = (props) => {
     }
 
     const changeIsDone = (pos) => {
-        const newTasks = tasks.map((el , index) => index === pos ? { ...el, isDone: !el.isDone } : el)
+        const newTasks = tasks.map((el, index) => index === pos ? { ...el, isDone: !el.isDone } : el)
         setTasks(newTasks)
     }
 
@@ -40,6 +40,14 @@ export const Todolist = (props) => {
         setTasks(updatedTasks)
     }
 
+
+
+    const sortedTasks = tasks.sort((a, b) => a.isDone - b.isDone || b.timeCreated - a.timeCreated);
+
+    useEffect(() => {
+        setTasks(sortedTasks);
+    }, [tasks])
+
     const taskList = tasks
         .map((el, index) => <Tasks
             deleteTask={deleteTask}
@@ -47,12 +55,6 @@ export const Todolist = (props) => {
             id={index}
             task={el.text}
             isDone={el.isDone} />)
-
-    const sortedTasks = tasks.sort((a, b) => a.isDone - b.isDone || b.timeCreated - a.timeCreated);
-
-    useEffect(() => {
-        setTasks(sortedTasks);
-    }, [tasks])
 
     return (
         <div>
@@ -73,7 +75,13 @@ export const Todolist = (props) => {
 
             <ul className={styles.tasks} style={{ position: 'relative' }}>
 
-                {taskList}
+                {tasks
+                    .map((el, index) => <Tasks
+                        deleteTask={deleteTask}
+                        changeIsDone={changeIsDone}
+                        id={index}
+                        task={el.text}
+                        isDone={el.isDone} />)}
 
             </ul>
         </div>
